@@ -3,3 +3,13 @@
 body {
   font-family: 'Open Sans', sans-serif;
 }
+
+input[type="text"] {
+  outline: 0 none;
+  padding: 8px;
+  border: 1px solid #ddd;
+
+  &:focus {
+    border-color: #bbb;
+  }
+}

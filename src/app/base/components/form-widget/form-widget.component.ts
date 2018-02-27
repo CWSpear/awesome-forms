@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChild, ContentChildren, HostBinding, Input, QueryList, } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ContentChildren, HostBinding, Input, QueryList } from '@angular/core';
 import { AwesomeFormField } from '../../classes/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AwesomeErrorComponent } from '../error/error.component';
@@ -13,7 +13,9 @@ const defaultErrorMessages: ErrorMessageMap = {
   required: 'This is a required field.',
 };
 
-export interface ErrorMessageMap {[key: string]: string;}
+export interface ErrorMessageMap {
+  [key: string]: string;
+}
 
 @Component({
   selector: 'awesome-form-widget',
@@ -23,7 +25,7 @@ export interface ErrorMessageMap {[key: string]: string;}
   animations: [
     trigger('transitionMessages', [
       state('enter', style({ opacity: 1, transform: 'translateY(0%)' })),
-      transition('void => enter', [
+      transition('void => *', [
         style({ opacity: 0, transform: 'translateY(-100%)' }),
         animate('300ms cubic-bezier(0.55, 0, 0.55, 0.2)'),
       ]),
@@ -35,6 +37,7 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
   @Input() hint: string;
 
   errorMessagesArray: ErrorMessage[];
+
   @Input() set errorMessages(errorMessageMap: ErrorMessageMap) {
     const errorMessages = {
       ...defaultErrorMessages,
@@ -51,17 +54,17 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
   @ContentChild(AwesomeFormField) formField: AwesomeFormField<T>;
   @ContentChildren(AwesomeErrorComponent) _errorChildren: QueryList<AwesomeErrorComponent>;
 
-
   animationState: string;
 
-  get subscriptType() {
+  get showError() {
     // const elems: HTMLElement[] = this.elemRef.nativeElement.querySelectorAll('awesome-error');
 
-    return (this.formField || {}).invalid ? 'error' : 'hint';
+    return (this.formField || {}).errorState;
   }
 
   ngAfterViewInit() {
-    // avoid animations on load.
-    this.animationState = 'enter';
+    // avoid animations on load
+    // TODO: without setTimeout, we get ExpressionChangedAfterItHasBeenCheckedError error, with timeout, we get inefficient double check
+    setTimeout(() => this.animationState = 'enter');
   }
 }

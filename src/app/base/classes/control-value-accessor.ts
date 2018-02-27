@@ -35,7 +35,7 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   }
 
   writeValue(value: T) {
-    this.internalControl.setValue(value, { emitEvent: false });
+    this.internalControl.setValue(value);
   }
 
   registerOnChange(fn: (newVal: T) => void) {

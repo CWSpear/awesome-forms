@@ -1,4 +1,4 @@
-import { ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, AbstractControlDirective, ControlValueAccessor, FormControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -6,7 +6,7 @@ import { AwesomeControlValueAccessor } from './control-value-accessor';
 
 export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T> implements ControlValueAccessor, OnInit, AbstractControlDirective {
   @Input()
-  set awesomeDisabled(isDisabled: boolean) {
+  set disabled(isDisabled: boolean) {
     this.setDisabledState(isDisabled);
   }
 
@@ -44,6 +44,14 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
     elem.addEventListener('focused', () => (this._focused = true));
     elem.addEventListener('blur', () => (this._focused = false));
+  }
+
+  @HostBinding('class.awesome-error-state')
+  get errorState(): boolean {
+    const showError = this.touched && this.dirty;
+
+    // TODO: check error submission
+    return showError && this.invalid;
   }
 
   get previousValue(): T { return this._previousValue; }
