@@ -1,0 +1,14 @@
+<awesome-form-widget
+  [label]="label"
+  [hint]="hint"
+>
+  <awesome-text
+    [required]="required"
+    [awesomeDisabled]="awesomeDisabled"
+    [formControl]="internalControl"
+  ></awesome-text>
+
+  <ng-container ngProjectAs="awesome-error">
+    <ng-content select="awesome-error"></ng-content>
+  </ng-container>
+</awesome-form-widget>

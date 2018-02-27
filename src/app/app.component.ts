@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'aaf-root',
+  selector: 'awesome-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'aaf';
+  required = false;
+  disabled = false;
+  control = new FormControl();
+  text: string;
+  textTwo: string;
+
+  controlRequired = false;
 }
