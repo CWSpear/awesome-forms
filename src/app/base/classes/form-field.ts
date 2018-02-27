@@ -16,11 +16,6 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   internalControl: FormControl = new FormControl();
 
-  private _previousValue: T;
-  get previousValue(): T {
-    return this._previousValue;
-  }
-
   protected _focused: boolean;
   get focused(): boolean {
     return this._focused;
@@ -31,19 +26,12 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   }
 
   get control(): AbstractControl {
-    return this.ngControl.control;
+    return this.ngControl.control || {};
   }
 
   ngOnInit() {
     super.ngOnInit();
     this.setupFocus();
-  }
-
-  registerOnChange(fn: (newVal: T) => void) {
-    this.propagateChange = (newVal: T) => {
-      this._previousValue = this.value;
-      fn(newVal);
-    };
   }
 
   setDisabledState(isDisabled: boolean) {
@@ -57,6 +45,8 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
     elem.addEventListener('focused', () => (this._focused = true));
     elem.addEventListener('blur', () => (this._focused = false));
   }
+
+  get previousValue(): T { return this._previousValue; }
 
   // pass through AbstractControlDirective properties
   get value(): any { return this.control.value; }

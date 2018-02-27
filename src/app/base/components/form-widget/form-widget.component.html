@@ -2,14 +2,19 @@
 
 <ng-content></ng-content>
 
-<awesome-hint *ngIf="formField.valid">{{ hint }}</awesome-hint>
+<ng-container [ngSwitch]="subscriptType">
+  <ng-container *ngSwitchCase="'error'" [@transitionMessages]="animationState">
+    <ng-container *ngFor="let error of errorMessagesArray" ngProjectAs="awesome-key">
+      <awesome-error class="error" *ngIf="formField.hasError(error.key)">
+        {{ error.message }}
+      </awesome-error>
+    </ng-container>
 
-<ng-container *ngFor="let error of errorMessages" ngProjectAs="awesome-key">
-  <awesome-error class="error" *ngIf="formField.hasError(error.key)">
-    {{ error.message }}
-  </awesome-error>
-</ng-container>
-
-<ng-container ngProjectAs="awesome-error">
-  <ng-content select="awesome-error"></ng-content>
+    <ng-container ngProjectAs="awesome-error">
+      <ng-content select="awesome-error"></ng-content>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'hint'" [@transitionMessages]="animationState">
+    <awesome-hint *ngIf="hint">{{ hint }}</awesome-hint>
+  </ng-container>
 </ng-container>

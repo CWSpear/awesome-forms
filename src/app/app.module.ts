@@ -11,6 +11,7 @@ import { AwesomeErrorComponent } from './base/components/error/error.component';
 import { AwesomeHintComponent } from './base/components/hint/hint.component';
 import { AwesomeLabelComponent } from './base/components/label/label.component';
 import { TextFormGroupComponent } from './form-groups/text/text.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { TextFormGroupComponent } from './form-groups/text/text.component';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    BrowserAnimationsModule,
   ],
   declarations: [
     AppComponent,

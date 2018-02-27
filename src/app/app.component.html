@@ -1,14 +1,13 @@
-<awesome-form-group-checkbox
-  [required]="required"
+<awesome-form-group-text
   label="Enter Text"
   hint="Psst. Hint."
+  [required]="required"
+  [minlength]="5"
   [disabled]="disabled"
   [(ngModel)]="text"
   #input="ngModel"
->
-  <awesome-error *ngIf="input.hasError('required')">Test Error</awesome-error>
-</awesome-form-group-checkbox>
-
+  [errorMessages]="{ required: 'Required field!' }"
+></awesome-form-group-text>
 
 <pre><code>{{ input.errors | json }}</code></pre>
 <pre><code>{{ text | json }}</code></pre>

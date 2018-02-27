@@ -11,6 +11,8 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
 
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
+  protected _previousValue: T;
+
   constructor(
     @Self() public ngControl: NgControl,
   ) {
@@ -21,7 +23,7 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
     this.internalControl.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe((newVal) => {
-        if (!this.valueCompare(this.internalControl.value, newVal)) {
+        if (!this.valueCompare(this._previousValue, newVal)) {
           this.propagateChange(newVal);
         }
       });
@@ -36,8 +38,11 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
     this.internalControl.setValue(value, { emitEvent: false });
   }
 
-  registerOnChange(fn: (value: any) => void): void {
-    this.propagateChange = fn;
+  registerOnChange(fn: (newVal: T) => void) {
+    this.propagateChange = (newVal: T) => {
+      this._previousValue = newVal;
+      fn(newVal);
+    };
   }
 
   registerOnTouched(fn: () => void): void {

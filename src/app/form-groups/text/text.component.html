@@ -1,10 +1,12 @@
 <awesome-form-widget
   [label]="label"
   [hint]="hint"
+  [errorMessages]="errorMessages"
 >
   <awesome-text
+    [minlength]="minlength"
     [required]="required"
-    [awesomeDisabled]="awesomeDisabled"
+    [awesomeDisabled]="disabled"
     [formControl]="internalControl"
   ></awesome-text>
 
