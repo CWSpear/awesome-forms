@@ -59,7 +59,7 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
   get showError() {
     // const elems: HTMLElement[] = this.elemRef.nativeElement.querySelectorAll('awesome-error');
 
-    return (this.formField || {}).errorState;
+    return this.formField && this.formField.errorState;
   }
 
   ngAfterViewInit() {

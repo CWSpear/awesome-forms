@@ -1,10 +1,19 @@
-import { ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, AbstractControlDirective, ControlValueAccessor, FormControl, ValidationErrors } from '@angular/forms';
+import { ElementRef, HostBinding, Input, OnInit, Optional, Self, ViewChild } from '@angular/core';
+import {
+  AbstractControl,
+  AbstractControlDirective,
+  ControlValueAccessor,
+  FormControl,
+  FormGroupDirective, NgControl,
+  NgForm,
+  ValidationErrors,
+} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { AwesomeControlValueAccessor } from './control-value-accessor';
 
-export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T> implements ControlValueAccessor, OnInit, AbstractControlDirective {
+export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
+  implements ControlValueAccessor, OnInit, AbstractControlDirective {
   @Input()
   set disabled(isDisabled: boolean) {
     this.setDisabledState(isDisabled);
@@ -13,8 +22,6 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   @Input() required: boolean;
 
   @ViewChild('input') input: ElementRef;
-
-  internalControl: FormControl = new FormControl();
 
   protected _focused: boolean;
   get focused(): boolean {
@@ -26,7 +33,19 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   }
 
   get control(): AbstractControl {
-    return this.ngControl.control || {};
+    return this.ngControl.control || <AbstractControl>{};
+  }
+
+  get form(): FormGroupDirective | NgForm {
+    return this.formGroupDirective || this.ngForm;
+  }
+
+  constructor(
+    @Optional() protected formGroupDirective: FormGroupDirective,
+    @Optional() protected ngForm: NgForm,
+    @Optional() @Self() public ngControl: NgControl,
+  ) {
+    super(ngControl);
   }
 
   ngOnInit() {
@@ -48,9 +67,9 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   @HostBinding('class.awesome-error-state')
   get errorState(): boolean {
-    const showError = this.touched && this.dirty;
+    // show if they've visited the field, typed something and left or if the form has been submitted
+    const showError = (this.touched && this.dirty) || (this.form && this.form.submitted);
 
-    // TODO: check error submission
     return showError && this.invalid;
   }
 

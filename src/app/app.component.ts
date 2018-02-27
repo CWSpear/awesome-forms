@@ -7,11 +7,11 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  required = false;
+  required = true;
   disabled = false;
-  control = new FormControl();
   text: string;
-  textTwo: string;
 
-  controlRequired = false;
+  submit(val) {
+    console.log(val);
+  }
 }

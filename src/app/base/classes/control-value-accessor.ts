@@ -1,10 +1,10 @@
-import { OnDestroy, OnInit, Self } from '@angular/core';
+import { OnDestroy, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { takeUntil } from 'rxjs/operators';
 
 export abstract class AwesomeControlValueAccessor<T> implements ControlValueAccessor, OnInit, OnDestroy {
-  protected internalControl: FormControl = new FormControl();
+  internalControl: FormControl = new FormControl();
 
   propagateChange: (newVal: T) => void;
   propagateTouched: () => void;
@@ -14,7 +14,7 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   protected _previousValue: T;
 
   constructor(
-    @Self() public ngControl: NgControl,
+    @Optional() @Self() public ngControl: NgControl,
   ) {
     this.ngControl.valueAccessor = <ControlValueAccessor>this;
   }
