@@ -1,13 +1,5 @@
-import { ElementRef, HostBinding, Input, OnInit, Optional, Self, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  AbstractControlDirective,
-  ControlValueAccessor,
-  FormControl,
-  FormGroupDirective, NgControl,
-  NgForm,
-  ValidationErrors,
-} from '@angular/forms';
+import { ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
+import { AbstractControlDirective, ControlValueAccessor, ValidationErrors, } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { AwesomeControlValueAccessor } from './control-value-accessor';
@@ -30,22 +22,6 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   get empty(): boolean {
     return this.value === null || this.value === undefined || <any>this.value === '';
-  }
-
-  get control(): AbstractControl {
-    return this.ngControl.control || <AbstractControl>{};
-  }
-
-  get form(): FormGroupDirective | NgForm {
-    return this.formGroupDirective || this.ngForm;
-  }
-
-  constructor(
-    @Optional() protected formGroupDirective: FormGroupDirective,
-    @Optional() protected ngForm: NgForm,
-    @Optional() @Self() public ngControl: NgControl,
-  ) {
-    super(ngControl);
   }
 
   ngOnInit() {

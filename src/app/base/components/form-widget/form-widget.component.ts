@@ -1,7 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ContentChildren, HostBinding, Input, QueryList } from '@angular/core';
+import { AfterViewInit, Component, ContentChild, ContentChildren, HostBinding, Input, Optional, QueryList } from '@angular/core';
 import { AwesomeFormField } from '../../classes/form-field';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AwesomeErrorComponent } from '../error/error.component';
+import { AwesomeFormGroup } from '../../classes/form-group';
+import { AbstractControl } from '@angular/forms';
 
 export interface ErrorMessage {
   key: string;
@@ -48,7 +50,7 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
   }
 
   @HostBinding('class.awesome-required') get awesomeRequired(): boolean {
-    return this.formField && this.formField.required;
+    return (this.formGroup && this.formGroup.required || this.formField && this.formField.required);
   }
 
   @ContentChild(AwesomeFormField) formField: AwesomeFormField<T>;
@@ -56,11 +58,20 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
 
   animationState: string;
 
+  get trackingControl(): AbstractControl {
+    return this.formGroup && this.formGroup.control || this.formField.control;
+  }
+
+  @HostBinding('class.awesome-error-state')
   get showError() {
     // const elems: HTMLElement[] = this.elemRef.nativeElement.querySelectorAll('awesome-error');
 
-    return this.formField && this.formField.errorState;
+    return (this.formGroup && this.formGroup.showError) || (this.formField && this.formField.errorState);
   }
+
+  constructor(
+    @Optional() protected formGroup: AwesomeFormGroup<T>,
+  ) {}
 
   ngAfterViewInit() {
     // avoid animations on load

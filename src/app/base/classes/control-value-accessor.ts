@@ -1,10 +1,10 @@
 import { OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { takeUntil } from 'rxjs/operators';
 
 export abstract class AwesomeControlValueAccessor<T> implements ControlValueAccessor, OnInit, OnDestroy {
-  internalControl: FormControl = new FormControl();
+  internalControl: AbstractControl = new FormControl();
 
   propagateChange: (newVal: T) => void;
   propagateTouched: () => void;
@@ -13,7 +13,17 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
 
   protected _previousValue: T;
 
+  get control(): AbstractControl {
+    return this.ngControl.control || <AbstractControl>{};
+  }
+
+  get form(): FormGroupDirective | NgForm {
+    return this.formGroupDirective || this.ngForm;
+  }
+
   constructor(
+    @Optional() protected formGroupDirective: FormGroupDirective,
+    @Optional() protected ngForm: NgForm,
     @Optional() @Self() public ngControl: NgControl,
   ) {
     this.ngControl.valueAccessor = <ControlValueAccessor>this;
@@ -23,7 +33,9 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
     this.internalControl.valueChanges
       .pipe(takeUntil(this.destroyed$))
       .subscribe((newVal) => {
+        console.log(this.constructor.name, '          propagateChange ', newVal);
         if (!this.valueCompare(this._previousValue, newVal)) {
+          console.log(this.constructor.name, '          propagateChang2 ', newVal);
           this.propagateChange(newVal);
         }
       });
@@ -35,6 +47,7 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   }
 
   writeValue(value: T) {
+    console.log(this.constructor.name, '          writeValue      ', value);
     this.internalControl.setValue(value);
   }
 

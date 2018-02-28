@@ -17,6 +17,12 @@
 <pre><code>{{ input.errors | json }}</code></pre>
 <pre><code>{{ text | json }}</code></pre>
 
+
+<pre><code>Touched: {{ input.touched | json }}</code></pre>
+<pre><code>Dirty:   {{ input.dirty | json }}</code></pre>
+<pre><code>Valid:   {{ input.valid | json }}</code></pre>
+
+
 <button (click)="required = !required">Toggle Required</button>
 <button (click)="disabled = !disabled">Toggle Disabled</button>
 <button (click)="text = 'Cameron'">Set to 'Cameron'</button>

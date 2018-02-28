@@ -6,5 +6,6 @@ import { AwesomeFormGroup } from '../../base/classes/form-group';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: AwesomeFormGroup, useExisting: TextFormGroupComponent }],
 })
 export class TextFormGroupComponent extends AwesomeFormGroup<string> {}
