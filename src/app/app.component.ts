@@ -10,6 +10,7 @@ export class AppComponent {
   required = true;
   disabled = false;
   text: string;
+  text2: string;
 
   submit(val) {
     console.log(val);

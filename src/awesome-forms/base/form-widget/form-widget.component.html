@@ -5,7 +5,7 @@
 <div class="awesome-subscript">
   <div *ngIf="showError" [@transitionMessages]="animationState">
     <ng-container *ngFor="let error of errorMessagesArray" ngProjectAs="awesome-key">
-      <awesome-error class="error" *ngIf="trackingControl.hasError(error.key)">
+      <awesome-error class="error" *ngIf="formField.hasError(error.key)">
         {{ error.message }}
       </awesome-error>
     </ng-container>

@@ -4,6 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'awesome-label',
   template: '<label><ng-content></ng-content></label>',
   styleUrls: ['./label.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AwesomeLabelComponent {}

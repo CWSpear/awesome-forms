@@ -1,4 +1,4 @@
-import { OnDestroy, OnInit, Optional, Self } from '@angular/core';
+import { ElementRef, OnDestroy, OnInit, Optional, Renderer2, Self } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { takeUntil } from 'rxjs/operators';
@@ -22,6 +22,8 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   }
 
   constructor(
+    protected renderer: Renderer2,
+    @Self() protected elementRef: ElementRef,
     @Optional() protected formGroupDirective: FormGroupDirective,
     @Optional() protected ngForm: NgForm,
     @Optional() @Self() public ngControl: NgControl,
@@ -30,15 +32,7 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   }
 
   ngOnInit() {
-    this.internalControl.valueChanges
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((newVal) => {
-        console.log(this.constructor.name, '          propagateChange ', newVal);
-        if (!this.valueCompare(this._previousValue, newVal)) {
-          console.log(this.constructor.name, '          propagateChang2 ', newVal);
-          this.propagateChange(newVal);
-        }
-      });
+    this.setUpSubscription();
   }
 
   ngOnDestroy() {
@@ -46,14 +40,24 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
     this.destroyed$.complete();
   }
 
+  setUpSubscription() {
+    this.internalControl.valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((newVal) => {
+        if (!this.valueCompare(this.control.value, newVal)) {
+          this.propagateChange(newVal);
+        }
+      });
+  }
+
   writeValue(value: T) {
-    console.log(this.constructor.name, '          writeValue      ', value);
+    this._previousValue = this.internalControl.value;
     this.internalControl.setValue(value);
   }
 
   registerOnChange(fn: (newVal: T) => void) {
     this.propagateChange = (newVal: T) => {
-      this._previousValue = newVal;
+      this._previousValue = this.control.value;
       fn(newVal);
     };
   }

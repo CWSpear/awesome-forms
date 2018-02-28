@@ -15,7 +15,7 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   @ViewChild('input') input: ElementRef;
 
-  protected _focused: boolean;
+  protected _focused = false;
   get focused(): boolean {
     return this._focused;
   }
@@ -24,21 +24,23 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
     return this.value === null || this.value === undefined || <any>this.value === '';
   }
 
+  get previousValue(): T { return this._previousValue; }
+
   ngOnInit() {
     super.ngOnInit();
     this.setupFocus();
   }
 
   setDisabledState(isDisabled: boolean) {
-    this.input.nativeElement.disabled = isDisabled;
+    this.renderer.setProperty(this.input.nativeElement, 'disabled', isDisabled);
   }
 
   setupFocus() {
     // doing it this way allows us to easily extend this component
     const elem: HTMLInputElement = this.input.nativeElement;
 
-    elem.addEventListener('focused', () => (this._focused = true));
-    elem.addEventListener('blur', () => (this._focused = false));
+    this.renderer.listen(elem, 'focus', () => ((this._focused = true)));
+    this.renderer.listen(elem, 'blur', () => (this.propagateTouched(), (this._focused = false)));
   }
 
   @HostBinding('class.awesome-error-state')
@@ -48,8 +50,6 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
     return showError && this.invalid;
   }
-
-  get previousValue(): T { return this._previousValue; }
 
   // pass through AbstractControlDirective properties
   get value(): any { return this.control.value; }
@@ -87,4 +87,5 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   hasError(errorCode: string, path?: string[]): boolean { return this.control.hasError(errorCode, path); }
 
   getError(errorCode: string, path?: string[]): any { return this.control.getError(errorCode, path); }
+  // end: pass through AbstractControlDirective properties
 }

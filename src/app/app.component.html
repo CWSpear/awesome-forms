@@ -1,31 +1,122 @@
-<form (ngSubmit)="submit(text)">
-  <awesome-form-group-text
-    name="input"
-    label="Enter Text"
-    hint="Psst. Hint."
-    [required]="required"
-    [minlength]="5"
-    [disabled]="disabled"
-    [(ngModel)]="text"
-    #input="ngModel"
+<!--<form (ngSubmit)="submit(text)">-->
+<!--<awesome-form-group-text-->
+<!--name="input"-->
+<!--label="Enter Text"-->
+<!--hint="Psst. Hint."-->
+<!--[required]="required"-->
+<!--[minlength]="5"-->
+<!--[disabled]="disabled"-->
+<!--[(ngModel)]="text"-->
+<!--#input="ngModel"-->
+<!--[errorMessages]="{ required: 'Required field!' }"-->
+<!--&gt;</awesome-form-group-text>-->
+
+<!--<button type="submit">Submit</button>-->
+<!--</form>-->
+
+<form (ngSubmit)="submit(text)" style="display: flex">
+  <awesome-form-widget
+    label="Directive"
+    hint="Min length: 5"
     [errorMessages]="{ required: 'Required field!' }"
-  ></awesome-form-group-text>
+  >
+    <label>
+      <input
+        name="input"
+        type="radio"
+        [value]="'one'"
+        [required]="required"
+        [disabled]="disabled"
+        [(ngModel)]="text"
+        #input="awesomeFormField"
+        awesomeFormField
+      />
+      One
+    </label>
+    <label>
+      <input
+        name="input"
+        type="radio"
+        [value]="'two'"
+        [required]="required"
+        [disabled]="disabled"
+        [(ngModel)]="text"
+        #input="awesomeFormField"
+        awesomeFormField
+      />
+      Two
+    </label>
+
+  </awesome-form-widget>
+
+  <awesome-form-widget
+    label="Component"
+    hint="Max length: 5"
+    [errorMessages]="{ required: 'Required field!' }"
+  >
+    <label>
+      <input
+        name="input2"
+        type="checkbox"
+        [required]="required"
+        [maxlength]="5"
+        [disabled]="disabled"
+        [(ngModel)]="text2"
+        #input2="awesomeFormField"
+        awesomeFormField
+      >
+      Check Me
+    </label>
+  </awesome-form-widget>
 
   <button type="submit">Submit</button>
 </form>
 
-<pre><code>{{ input.errors | json }}</code></pre>
-<pre><code>{{ text | json }}</code></pre>
+<div style="display: flex">
+  <fieldset style="margin-top: 30px">
+    <legend>Directive Debug</legend>
+
+    <pre><code>Errors: {{ input.errors | json }}</code></pre>
+
+    <pre><code>Touched: {{ input.touched | json }}</code></pre>
+    <pre><code>Dirty:   {{ input.dirty | json }}</code></pre>
+    <pre><code>Valid:   {{ input.valid | json }}</code></pre>
+    <pre><code>Focused: {{ input.focused | json }}</code></pre>
+    <pre><code>Submit:  {{ input.form.submitted | json }}</code></pre>
+    <pre><code>Empty:   {{ input.empty | json }}</code></pre>
+    <pre><code>Value:   {{ input.value | json }}</code></pre>
+    <pre><code>Prev:    {{ input.previousValue | json }}</code></pre>
 
 
-<pre><code>Touched: {{ input.touched | json }}</code></pre>
-<pre><code>Dirty:   {{ input.dirty | json }}</code></pre>
-<pre><code>Valid:   {{ input.valid | json }}</code></pre>
+    <button (click)="required = !required">Toggle Required</button>
+    <button (click)="disabled = !disabled">Toggle Disabled</button>
+    <button (click)="text = 'Cameron'">Set to 'Cameron'</button>
+
+    <pre><code>Required: {{ required }}</code></pre>
+    <pre><code>Disabled: {{ disabled }}</code></pre>
+  </fieldset>
+
+  <fieldset style="margin-top: 30px">
+    <legend>Component Debug</legend>
+
+    <pre><code>Errors: {{ input2.errors | json }}</code></pre>
 
 
-<button (click)="required = !required">Toggle Required</button>
-<button (click)="disabled = !disabled">Toggle Disabled</button>
-<button (click)="text = 'Cameron'">Set to 'Cameron'</button>
+    <pre><code>Touched: {{ input2.touched | json }}</code></pre>
+    <pre><code>Dirty:   {{ input2.dirty | json }}</code></pre>
+    <pre><code>Valid:   {{ input2.valid | json }}</code></pre>
+    <pre><code>Focused: {{ input2.focused | json }}</code></pre>
+    <pre><code>Submit:  {{ input2.form?.submitted | json }}</code></pre>
+    <pre><code>Empty:   {{ input2.empty | json }}</code></pre>
+    <pre><code>Value:   {{ input2.value | json }}</code></pre>
+    <pre><code>Prev:    {{ input2.previousValue | json }}</code></pre>
 
-<pre><code>Required: {{ required }}</code></pre>
-<pre><code>Disabled: {{ disabled }}</code></pre>
+
+    <button (click)="required = !required">Toggle Required</button>
+    <button (click)="disabled = !disabled">Toggle Disabled</button>
+    <button (click)="text2 = 'Cameron'">Set to 'Cameron'</button>
+
+    <pre><code>Required: {{ required }}</code></pre>
+    <pre><code>Disabled: {{ disabled }}</code></pre>
+  </fieldset>
+</div>
