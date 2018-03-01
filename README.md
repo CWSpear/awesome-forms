@@ -158,3 +158,7 @@ and the Markup:
 >
 </ng-select>
 ```
+
+----
+
+© Cameron Spear. No license. You cannot use without express permission until another license is added to supersede this (and this message will be removed).
