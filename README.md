@@ -1,27 +1,29 @@
-# AwesomeAngularForms
+# Awesome Forms
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.1.
+*Note that `awesome` is just a placeholder prefix for a real name.*
 
-## Development server
+The purpose of this mini-framework is to make it very easy to create reproducible form groups (i.e. the actual input + label, hint, errors, etc), and to give `NgControl` a more powerful interface `AwesomeFormField`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The basic idea in simplified HTML is to turn this:
 
-## Code scaffolding
+```html
+<awesome-form-widget label="Label" hint="Hint" errorMessages="{}">
+  <input awesomeFormField />
+</awesome-form-widget>
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+into this:
 
-## Build
+```html
+<div>
+  <label>Label</label>
+  <input />
+  <div *ngIf="!error">Hint</div>
+  <div *ngIf="error1">Error 1</div>
+  <div *ngIf="error1">Error 2</div>
+</div>
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+We want to create that structure, *and* automatically show/hide the errors/hints based on whether or not we should show a hint or an error (which we only want to show errors if the field is not only invalid, but touched and dirty or if the form has been submitted).
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+We also want to create a higher level control (`AwesomeFormField`) that we can access in other components that will give us more insight into that form field than `NgControl` offers. 
