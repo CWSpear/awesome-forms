@@ -52,7 +52,7 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   // pass through AbstractControlDirective properties
 
-  get value(): any { return this.control.value; }
+  get value(): T { return this.control.value; }
 
   get valid(): boolean | null { return this.control.valid; }
 
@@ -78,11 +78,11 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   get statusChanges(): Observable<any> | null { return this.control.statusChanges; }
 
-  get valueChanges(): Observable<any> | null { return this.control.valueChanges; }
+  get valueChanges(): Observable<T> | null { return this.control.valueChanges; }
 
   get path(): string[] | null { return null; }
 
-  reset(value?: any): void { this.control.reset(value); }
+  reset(value?: T): void { this.control.reset(value); }
 
   hasError(errorCode: string, path?: string[]): boolean { return this.control.hasError(errorCode, path); }
 

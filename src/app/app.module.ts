@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AwesomeFormsModule } from '../awesome-forms/awesome-forms.module';
+import { DebugComponent } from './debug/debug.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { AwesomeFormsModule } from '../awesome-forms/awesome-forms.module';
     CommonModule,
     AwesomeFormsModule,
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, DebugComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

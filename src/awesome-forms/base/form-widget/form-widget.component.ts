@@ -36,7 +36,7 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
   @Input() label: string;
   @Input() hint: string;
 
-  errorMessagesArray: ErrorMessage[];
+  errorMessagesArray: ErrorMessage[] = this.errorMessageMapToArray(defaultErrorMessages);
   animationState: string;
 
   @Input() set errorMessages(errorMessageMap: ErrorMessageMap) {
@@ -45,7 +45,7 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
       ...errorMessageMap,
     };
 
-    this.errorMessagesArray = Object.keys(errorMessages).map((key: string) => ({ key, message: errorMessages[key] }));
+    this.errorMessagesArray = this.errorMessageMapToArray(errorMessages);
   }
 
   @HostBinding('class.awesome-required') get awesomeRequired(): boolean {
@@ -68,5 +68,9 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
     if (!this.formField) {
       console.error(`${this.constructor.name} must contain an ${AwesomeFormField.name}`);
     }
+  }
+
+  private errorMessageMapToArray(errorMessages: ErrorMessageMap) {
+    return Object.keys(errorMessages).map((key: string) => ({ key, message: errorMessages[key] }));
   }
 }

@@ -1,111 +1,152 @@
-<!--<form (ngSubmit)="submit(text)">-->
-<!--<awesome-form-group-text-->
-<!--name="input"-->
-<!--label="Enter Text"-->
-<!--hint="Psst. Hint."-->
-<!--[required]="required"-->
-<!--[minlength]="5"-->
-<!--[disabled]="disabled"-->
-<!--[(ngModel)]="text"-->
-<!--#input="ngModel"-->
-<!--[errorMessages]="{ required: 'Required field!' }"-->
-<!--&gt;</awesome-form-group-text>-->
+<form #form="ngForm" (ngSubmit)="submit(model)">
 
-<!--<button type="submit">Submit</button>-->
-<!--</form>-->
+  <button type="button" (click)="required = !required">Toggle Required</button>
+  <button type="button" (click)="disabled = !disabled">Toggle Disabled</button>
+  <button type="submit">Submit</button>
+  <pre><code>Form is: {{ form.valid ? 'valid' : 'invalid' }}</code></pre>
 
-<form (ngSubmit)="submit(text)" style="display: flex">
-  <!--<select-->
-    <!--name="input"-->
-    <!--[required]="required"-->
-    <!--[disabled]="disabled"-->
-    <!--[(ngModel)]="text"-->
-    <!--#input="ngModel"-->
-  <!--&gt;-->
-    <!--<option *ngFor="let opt of options" [ngValue]="opt">{{ opt.label }}</option>-->
-  <!--</select>-->
+  <pre><code>Required: {{ required }}</code></pre>
+  <pre><code>Disabled: {{ disabled }}</code></pre>
 
-  <awesome-form-widget
-    label="Directive"
-    hint="Min length: 5"
-    [errorMessages]="{ required: 'Required field!' }"
-  >
-    <awesome-select
-      name="input"
-      [required]="required"
-      [disabled]="disabled"
-      [(ngModel)]="text"
-      #input="awesomeFormField"
-    >
-      <awesome-option *ngFor="let opt of options" [ngValue]="opt">{{ opt.label }}</awesome-option>
-    </awesome-select>
-  </awesome-form-widget>
+  <div class="row">
+    <div class="col">
+      <awesome-form-widget
+        label="Text"
+        hint="Length between 5 and 10"
+      >
+        <input
+          type="text"
+          #input1="awesomeFormField"
+          awesomeFormField
+          name="text"
+          [minlength]="5"
+          [maxlength]="10"
+          [(ngModel)]="model.text"
+          [required]="required"
+          [disabled]="disabled"
+        />
+      </awesome-form-widget>
+    </div>
+    <div class="col">
+      <awesome-debug
+        name="Text"
+        [valueToPick]="'This is a set value'"
+        [formField]="input1"
+        [modelValue]="model.text"
+      ></awesome-debug>
+    </div>
+  </div>
 
-  <awesome-form-widget
-    label="Radio"
-    [errorMessages]="{ required: 'Required field!' }"
-  >
-    <awesome-radio
-      name="input2"
-      [required]="required"
-      [disabled]="disabled"
-      [(ngModel)]="text2"
-      #input2="awesomeFormField"
-    >
-      <awesome-radio-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-radio-option>
-    </awesome-radio>
-  </awesome-form-widget>
+  <div class="row">
+    <div class="col">
+      <awesome-form-widget
+        label="Checkbox"
+      >
+        <label>
+          <input
+            type="checkbox"
+            #input2="awesomeFormField"
+            awesomeFormField
+            name="checkbox"
+            [(ngModel)]="model.checkbox"
+            [required]="required"
+            [disabled]="disabled"
+          />
+          Check Me
+        </label>
+      </awesome-form-widget>
+    </div>
+    <div class="col">
+      <awesome-debug
+        name="Select"
+        [valueToPick]="false"
+        [formField]="input2"
+        [modelValue]="model.checkbox"
+      ></awesome-debug>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <awesome-form-widget
+        label="Select"
+        hint="Select favorite color"
+        [errorMessages]="{ required: 'Override require message!' }"
+      >
+        <awesome-select
+          name="select"
+          [required]="required"
+          [disabled]="disabled"
+          [(ngModel)]="model.select"
+          #input3="awesomeFormField"
+        >
+          <awesome-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-option>
+        </awesome-select>
+      </awesome-form-widget>
+    </div>
+    <div class="col">
+      <awesome-debug
+        name="Select"
+        [valueToPick]="options[1]"
+        [formField]="input3"
+        [modelValue]="model.select"
+      ></awesome-debug>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <awesome-form-widget
+        label="Radio"
+      >
+        <awesome-radio
+          name="radio"
+          [required]="required"
+          [disabled]="disabled"
+          [(ngModel)]="model.radio"
+          #input4="awesomeFormField"
+        >
+          <awesome-radio-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-radio-option>
+        </awesome-radio>
+      </awesome-form-widget>
+    </div>
+    <div class="col">
+      <awesome-debug
+        name="Radio"
+        [valueToPick]="options[2]"
+        [formField]="input4"
+        [modelValue]="model.radio"
+      ></awesome-debug>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <awesome-form-widget
+        label="Custom Text"
+      >
+        <awesome-text
+          name="customText"
+          [minlength]="5"
+          [maxlength]="10"
+          [required]="required"
+          [disabled]="disabled"
+          [(ngModel)]="model.customText"
+          #input5="awesomeFormField"
+        >
+        </awesome-text>
+      </awesome-form-widget>
+    </div>
+    <div class="col">
+      <awesome-debug
+        name="Custom Text"
+        [valueToPick]="'Text is easy'"
+        [formField]="input5"
+        [modelValue]="model.customText"
+      ></awesome-debug>
+    </div>
+  </div>
 
   <button type="submit">Submit</button>
+  <pre><code>Form is: {{ form.valid ? 'valid' : 'invalid' }}</code></pre>
 </form>
-
-<div style="display: flex">
-  <fieldset style="margin-top: 30px">
-    <legend>Directive Debug</legend>
-
-    <pre><code>Errors: {{ input.errors | json }}</code></pre>
-
-    <pre><code>Touched: {{ input.touched | json }}</code></pre>
-    <pre><code>Dirty:   {{ input.dirty | json }}</code></pre>
-    <pre><code>Valid:   {{ input.valid | json }}</code></pre>
-    <pre><code>Focused: {{ input.focused | json }}</code></pre>
-    <pre><code>Submit:  {{ input.form.submitted | json }}</code></pre>
-    <pre><code>Empty:   {{ input.empty | json }}</code></pre>
-    <pre><code>Model:   {{ text | json }}</code></pre>
-    <pre><code>Value:   {{ input.value | json }}</code></pre>
-    <pre><code>Prev:    {{ input.previousValue | json }}</code></pre>
-
-
-    <button (click)="required = !required">Toggle Required</button>
-    <button (click)="disabled = !disabled">Toggle Disabled</button>
-    <button (click)="text = options[1]">Set to 'options[1]'</button>
-
-    <pre><code>Required: {{ required }}</code></pre>
-    <pre><code>Disabled: {{ disabled }}</code></pre>
-  </fieldset>
-
-  <fieldset style="margin-top: 30px">
-    <legend>Component Debug</legend>
-
-    <pre><code>Errors: {{ input2.errors | json }}</code></pre>
-
-
-    <pre><code>Touched: {{ input2.touched | json }}</code></pre>
-    <pre><code>Dirty:   {{ input2.dirty | json }}</code></pre>
-    <pre><code>Valid:   {{ input2.valid | json }}</code></pre>
-    <pre><code>Focused: {{ input2.focused | json }}</code></pre>
-    <pre><code>Submit:  {{ input2.form?.submitted | json }}</code></pre>
-    <pre><code>Empty:   {{ input2.empty | json }}</code></pre>
-    <pre><code>Model:   {{ text2 | json }}</code></pre>
-    <pre><code>Value:   {{ input2.value | json }}</code></pre>
-    <pre><code>Prev:    {{ input2.previousValue | json }}</code></pre>
-
-
-    <button (click)="required = !required">Toggle Required</button>
-    <button (click)="disabled = !disabled">Toggle Disabled</button>
-    <button (click)="text2 = options[1]">Set to 'options[1]'</button>
-
-    <pre><code>Required: {{ required }}</code></pre>
-    <pre><code>Disabled: {{ disabled }}</code></pre>
-  </fieldset>
-</div>

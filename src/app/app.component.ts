@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   required = true;
   disabled = false;
-  text: any;
-  text2: any;
+
+  model: any = {};
 
   options = [
     { id: 1, value: 1, label: 'Red' },

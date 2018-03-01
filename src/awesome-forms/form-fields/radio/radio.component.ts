@@ -10,7 +10,7 @@ import { RadioOptionComponent } from './radio-option/radio-option.component';
   providers: [{ provide: AwesomeFormField, useExisting: RadioComponent }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RadioComponent extends AwesomeFormField<string> {
+export class RadioComponent extends AwesomeFormField<any> {
   @Input() name: string;
 
   @ContentChildren(RadioOptionComponent) inputs: QueryList<RadioOptionComponent> = <any>[];

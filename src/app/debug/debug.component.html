@@ -1,0 +1,18 @@
+<fieldset>
+  <legend>{{ name }} Debug</legend>
+
+  <button type="button" (click)="pickValue()">Set to <code>{{ valueToPickStr }}</code></button>
+
+  <pre><code>Touched: {{ formField.touched | json }}</code></pre>
+  <pre><code>Dirty:   {{ formField.dirty | json }}</code></pre>
+  <pre><code>Valid:   {{ formField.valid | json }}</code></pre>
+  <pre><code>Focused: {{ formField.focused | json }}</code></pre>
+  <pre><code>Submit:  {{ formField.form?.submitted | json }}</code></pre>
+  <pre><code>Empty:   {{ formField.empty | json }}</code></pre>
+
+  <pre><code>Value:   {{ formField.value | json }}</code></pre>
+  <pre><code>Model:   {{ modelValue | json }}</code></pre>
+  <pre><code>Prev:    {{ formField.previousValue | json }}</code></pre>
+
+  <pre><code>Errors:  {{ formField.errors | json }}</code></pre>
+</fieldset>
