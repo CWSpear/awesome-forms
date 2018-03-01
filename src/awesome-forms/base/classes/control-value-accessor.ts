@@ -73,11 +73,11 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
     this.propagateTouched = fn;
   }
 
-  protected convertFromInternalValue(internalValue: I): T {
+  protected convertFromInternalValue(internalValue: any): T {
     return internalValue;
   }
 
-  protected convertToInternalValue(value: T): I {
+  protected convertToInternalValue(value: T): any {
     return value;
   }
 
