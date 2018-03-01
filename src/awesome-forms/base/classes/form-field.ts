@@ -1,11 +1,11 @@
-import { ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
 import { AbstractControlDirective, ControlValueAccessor, ValidationErrors, } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { AwesomeControlValueAccessor } from './control-value-accessor';
 
 export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
-  implements ControlValueAccessor, OnInit, AbstractControlDirective {
+  implements AfterViewInit, ControlValueAccessor, AbstractControlDirective {
   @Input()
   set disabled(isDisabled: boolean) {
     this.setDisabledState(isDisabled);
@@ -26,8 +26,7 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
 
   get previousValue(): T { return this._previousValue; }
 
-  ngOnInit() {
-    super.ngOnInit();
+  ngAfterViewInit() {
     this.setupFocus();
   }
 
@@ -52,6 +51,7 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   }
 
   // pass through AbstractControlDirective properties
+
   get value(): any { return this.control.value; }
 
   get valid(): boolean | null { return this.control.valid; }
@@ -87,5 +87,6 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   hasError(errorCode: string, path?: string[]): boolean { return this.control.hasError(errorCode, path); }
 
   getError(errorCode: string, path?: string[]): any { return this.control.getError(errorCode, path); }
+
   // end: pass through AbstractControlDirective properties
 }

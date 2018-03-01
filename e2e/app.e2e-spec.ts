@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('awesome-angular-forms App', () => {
+describe('awesome-forms App', () => {
   let page: AppPage;
 
   beforeEach(() => {

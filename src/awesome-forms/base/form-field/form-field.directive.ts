@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Directive, HostListener, OnInit } from '@angular/core';
+import { Directive, HostListener, Input, OnInit } from '@angular/core';
 import { AwesomeFormField } from '../classes/form-field';
+
+// @TODO check if value changed before `writeValue` or `propagateChange`?
 
 @Directive({
   selector: '[awesomeFormField]',
@@ -7,6 +9,8 @@ import { AwesomeFormField } from '../classes/form-field';
   providers: [{ provide: AwesomeFormField, useExisting: AwesomeFormFieldDirective }],
 })
 export class AwesomeFormFieldDirective<T> extends AwesomeFormField<T> implements OnInit {
+  @Input() type: string;
+
   get input() {
     return this.elementRef;
   }
@@ -23,9 +27,28 @@ export class AwesomeFormFieldDirective<T> extends AwesomeFormField<T> implements
   }
 
   writeValue(value: any): void {
-    const normalizedValue = value == null ? '' : value;
-    this._previousValue = this.input.nativeElement.value;
-    this.renderer.setProperty(this.input.nativeElement, 'value', normalizedValue);
+    switch (this.type) {
+      case 'checkbox': {
+        this._previousValue = this.input.nativeElement.checked;
+        this.renderer.setProperty(this.elementRef.nativeElement, 'checked', value);
+        break;
+      }
+
+      case 'text':
+      default: {
+        const normalizedValue = value == null ? '' : value;
+        this._previousValue = this.input.nativeElement.value;
+        this.renderer.setProperty(this.input.nativeElement, 'value', normalizedValue);
+      }
+    }
+  }
+
+  @HostListener('change', ['$event.target.checked'])
+  onChange(value) {
+    // this isn't needed for regular text fields (input handles it)
+    if (this.type === 'checkbox') {
+      this.propagateChange(value);
+    }
   }
 
   @HostListener('input', ['$event.target.value'])

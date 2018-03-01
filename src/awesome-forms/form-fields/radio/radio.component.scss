@@ -1,0 +1,7 @@
+:host.awesome-error-state input {
+  border-color: red;
+}
+
+.awesome-error-state :host input {
+  border-color: red;
+}

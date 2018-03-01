@@ -1,0 +1,8 @@
+<select
+  #input
+  [formControl]="internalControl"
+>
+  <option *ngFor="let opt of awesomeOptions" [ngValue]="opt.ngValue || opt.value">{{ opt.label }}</option>
+</select>
+
+<ng-content select="awesome-option"></ng-content>

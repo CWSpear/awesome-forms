@@ -15,58 +15,45 @@
 <!--</form>-->
 
 <form (ngSubmit)="submit(text)" style="display: flex">
+  <!--<select-->
+    <!--name="input"-->
+    <!--[required]="required"-->
+    <!--[disabled]="disabled"-->
+    <!--[(ngModel)]="text"-->
+    <!--#input="ngModel"-->
+  <!--&gt;-->
+    <!--<option *ngFor="let opt of options" [ngValue]="opt">{{ opt.label }}</option>-->
+  <!--</select>-->
+
   <awesome-form-widget
     label="Directive"
     hint="Min length: 5"
     [errorMessages]="{ required: 'Required field!' }"
   >
-    <label>
-      <input
-        name="input"
-        type="radio"
-        [value]="'one'"
-        [required]="required"
-        [disabled]="disabled"
-        [(ngModel)]="text"
-        #input="awesomeFormField"
-        awesomeFormField
-      />
-      One
-    </label>
-    <label>
-      <input
-        name="input"
-        type="radio"
-        [value]="'two'"
-        [required]="required"
-        [disabled]="disabled"
-        [(ngModel)]="text"
-        #input="awesomeFormField"
-        awesomeFormField
-      />
-      Two
-    </label>
-
+    <awesome-select
+      name="input"
+      [required]="required"
+      [disabled]="disabled"
+      [(ngModel)]="text"
+      #input="awesomeFormField"
+    >
+      <awesome-option *ngFor="let opt of options" [ngValue]="opt">{{ opt.label }}</awesome-option>
+    </awesome-select>
   </awesome-form-widget>
 
   <awesome-form-widget
-    label="Component"
-    hint="Max length: 5"
+    label="Radio"
     [errorMessages]="{ required: 'Required field!' }"
   >
-    <label>
-      <input
-        name="input2"
-        type="checkbox"
-        [required]="required"
-        [maxlength]="5"
-        [disabled]="disabled"
-        [(ngModel)]="text2"
-        #input2="awesomeFormField"
-        awesomeFormField
-      >
-      Check Me
-    </label>
+    <awesome-radio
+      name="input2"
+      [required]="required"
+      [disabled]="disabled"
+      [(ngModel)]="text2"
+      #input2="awesomeFormField"
+    >
+      <awesome-radio-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-radio-option>
+    </awesome-radio>
   </awesome-form-widget>
 
   <button type="submit">Submit</button>
@@ -84,13 +71,14 @@
     <pre><code>Focused: {{ input.focused | json }}</code></pre>
     <pre><code>Submit:  {{ input.form.submitted | json }}</code></pre>
     <pre><code>Empty:   {{ input.empty | json }}</code></pre>
+    <pre><code>Model:   {{ text | json }}</code></pre>
     <pre><code>Value:   {{ input.value | json }}</code></pre>
     <pre><code>Prev:    {{ input.previousValue | json }}</code></pre>
 
 
     <button (click)="required = !required">Toggle Required</button>
     <button (click)="disabled = !disabled">Toggle Disabled</button>
-    <button (click)="text = 'Cameron'">Set to 'Cameron'</button>
+    <button (click)="text = options[1]">Set to 'options[1]'</button>
 
     <pre><code>Required: {{ required }}</code></pre>
     <pre><code>Disabled: {{ disabled }}</code></pre>
@@ -108,13 +96,14 @@
     <pre><code>Focused: {{ input2.focused | json }}</code></pre>
     <pre><code>Submit:  {{ input2.form?.submitted | json }}</code></pre>
     <pre><code>Empty:   {{ input2.empty | json }}</code></pre>
+    <pre><code>Model:   {{ text2 | json }}</code></pre>
     <pre><code>Value:   {{ input2.value | json }}</code></pre>
     <pre><code>Prev:    {{ input2.previousValue | json }}</code></pre>
 
 
     <button (click)="required = !required">Toggle Required</button>
     <button (click)="disabled = !disabled">Toggle Disabled</button>
-    <button (click)="text2 = 'Cameron'">Set to 'Cameron'</button>
+    <button (click)="text2 = options[1]">Set to 'options[1]'</button>
 
     <pre><code>Required: {{ required }}</code></pre>
     <pre><code>Disabled: {{ disabled }}</code></pre>

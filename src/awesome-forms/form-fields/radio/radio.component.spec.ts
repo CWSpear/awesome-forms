@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextComponent } from './text.component';
+import { TextComponent } from './radio.component';
 
 describe('SelectComponent', () => {
   let component: TextComponent;
