@@ -51,12 +51,16 @@ export class AwesomeFormFieldDirective<T> extends AwesomeFormField<T> implements
   onChange(value) {
     // this isn't needed for regular text fields (input handles it)
     if (this.type === 'checkbox') {
+      // internalValue always matches with the directives
+      this.internalValue = value;
       this.propagateChange(value);
     }
   }
 
   @HostListener('input', ['$event.target.value'])
   onInput(value) {
+    // internalValue always matches with the directives
+    this.internalValue = value;
     this.propagateChange(value);
   }
 

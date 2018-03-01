@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AwesomeControlValueAccessor } from './control-value-accessor';
 
-export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
+export abstract class AwesomeFormField<T = any, I = T> extends AwesomeControlValueAccessor<T, I>
   implements AfterViewInit, ControlValueAccessor, AbstractControlDirective {
   @Input()
   set disabled(isDisabled: boolean) {

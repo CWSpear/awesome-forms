@@ -158,6 +158,41 @@ and the Markup:
 >
 </ng-select>
 ```
+#### Differing Model Values
+
+If you're internal control has a different value format than you desire, you can map between them by overriding the `convertFromInternalValue` and `convertToInternalValue` methods. For example, if you are using a 3rd party date picker object that uses an object to represent the date, but you want to use [`moment`](https://momentjs.com/), you could do this in your component (that extends `AwesomeFormField`):
+
+```ts
+// assuming the internal object has an interface like this:
+interface DateObject {
+  day: number;
+  month: number;
+  year: number;
+}
+
+export class DatePickerComponent extends AwesomeFormField<Moment, DateObject> {
+  protected convertFromInternalValue(internalValue: DateObject): Moment {
+    if (!internvalValue) {
+      return null;
+    }
+  
+    // note that moment months are zero-indexed
+    internalValue.month--;
+    return moment(internalValue);
+  }
+  
+  protected convertToInternalValue(value: Moment): DateObject {
+    if (!value) {
+      return null;
+    }
+  
+    return {
+      day: value.day(),
+      month: value.month() + 1, // note that moment months are zero-indexed
+      year: value.hour(),
+    };
+  }
+```
 
 ----
 

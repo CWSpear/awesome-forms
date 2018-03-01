@@ -3,7 +3,7 @@ import { AbstractControl, ControlValueAccessor, FormControl, FormGroupDirective,
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { takeUntil } from 'rxjs/operators';
 
-export abstract class AwesomeControlValueAccessor<T> implements ControlValueAccessor, OnInit, OnDestroy {
+export abstract class AwesomeControlValueAccessor<T = any, I = T> implements ControlValueAccessor, OnInit, OnDestroy {
   internalControl: AbstractControl = new FormControl();
 
   propagateChange: (newVal: T) => void;
@@ -12,6 +12,7 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   protected _previousValue: T;
+  internalValue: I;
 
   get control(): AbstractControl {
     return this.ngControl.control || <AbstractControl>{};
@@ -43,16 +44,22 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
   setUpSubscription() {
     this.internalControl.valueChanges
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((newVal) => {
-        if (!this.valueCompare(this.control.value, newVal)) {
-          this.propagateChange(newVal);
+      .subscribe((internalValue: I) => {
+        this.internalValue = internalValue;
+        const newValue = this.convertFromInternalValue(internalValue);
+        if (!this.valueCompare(this.control.value, newValue)) {
+          this.propagateChange(newValue);
         }
       });
   }
 
   writeValue(value: T) {
+    this.setValue(value);
+  }
+
+  setValue(value: T) {
     this._previousValue = this.internalControl.value;
-    this.internalControl.setValue(value);
+    this.internalControl.setValue(this.convertToInternalValue(value));
   }
 
   registerOnChange(fn: (newVal: T) => void) {
@@ -64,6 +71,14 @@ export abstract class AwesomeControlValueAccessor<T> implements ControlValueAcce
 
   registerOnTouched(fn: () => void): void {
     this.propagateTouched = fn;
+  }
+
+  protected convertFromInternalValue(internalValue: I): T {
+    return internalValue;
+  }
+
+  protected convertToInternalValue(value: T): I {
+    return value;
   }
 
   protected valueCompare(oldVal: T, newVal: T): boolean {
