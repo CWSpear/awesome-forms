@@ -26,6 +26,10 @@ export class AwesomeFormFieldDirective<T> extends AwesomeFormField<T> implements
     // we don't want to use the control subscription for the directive (we use onInput instead)
   }
 
+  setDisabledState(isDisabled: boolean) {
+    this.renderer.setProperty(this.input.nativeElement, 'disabled', isDisabled);
+  }
+
   writeValue(value: any): void {
     switch (this.type) {
       case 'checkbox': {

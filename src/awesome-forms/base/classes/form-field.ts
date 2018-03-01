@@ -31,7 +31,11 @@ export abstract class AwesomeFormField<T> extends AwesomeControlValueAccessor<T>
   }
 
   setDisabledState(isDisabled: boolean) {
-    this.renderer.setProperty(this.input.nativeElement, 'disabled', isDisabled);
+    if (isDisabled) {
+      this.internalControl.disable();
+    } else {
+      this.internalControl.enable();
+    }
   }
 
   setupFocus() {

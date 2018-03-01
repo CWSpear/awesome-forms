@@ -132,10 +132,6 @@ export class MySelectComponent extends AwesomeFormField<any> {
   @Input() items;
   // you'd probably want to add any other `ng-select` options you'd use
   
-  setDisabledState(isDisabled: boolean) {
-    // override to do nothing, handled with the inherited `disable` property directly
-  }
-
   setupFocus() {
     // override to do nothing, handled below
   }
@@ -156,7 +152,6 @@ and the Markup:
 ```html
 <ng-select
   #input
-  [disabled]="disabled"
   [items]="items"
   (blur)="onBlur()"
   (focus)="onFocus()"
