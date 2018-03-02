@@ -10,7 +10,7 @@ The basic idea in simplified HTML is to turn this:
 
 ```html
 <awesome-form-widget label="Label" hint="Hint" errorMessages="{}">
-  <input awesomeFormField />
+  <input awesomeControl />
 </awesome-form-widget>
 ```
 
@@ -48,7 +48,7 @@ import { AwesomeFormField } from '../../base/classes/form-field';
 
 @Component({
   selector: 'awesome-text',
-  exportAs: 'awesomeFormField',
+  exportAs: 'awesomeControl',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
   providers: [{ provide: AwesomeFormField, useExisting: TextComponent }],
@@ -84,7 +84,7 @@ import { RadioOptionComponent } from './radio-option/radio-option.component';
 
 @Component({
   selector: 'awesome-radio',
-  exportAs: 'awesomeFormField',
+  exportAs: 'awesomeControl',
   template: '<ng-content></ng-content>',
   styleUrls: ['./radio.component.scss'],
   providers: [{ provide: AwesomeFormField, useExisting: RadioComponent }],
@@ -122,7 +122,7 @@ import { AwesomeFormField } from '../../base/classes/form-field';
 
 @Component({
   selector: 'awesome-my-select',
-  exportAs: 'awesomeFormField',
+  exportAs: 'awesomeControl',
   templateUrl: './my-select.component.html',
   styleUrls: ['./my-select.component.scss'],
   providers: [{ provide: AwesomeFormField, useExisting: MySelectComponent }],

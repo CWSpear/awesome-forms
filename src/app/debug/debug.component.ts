@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AwesomeFormField } from '../../awesome-forms/base/classes/form-field';
+import { AwesomeControl } from '../../awesome-forms/base/classes/control';
 
 @Component({
   selector: 'awesome-debug',
@@ -8,7 +8,7 @@ import { AwesomeFormField } from '../../awesome-forms/base/classes/form-field';
 })
 export class DebugComponent {
   @Input() name: string;
-  @Input() formField: AwesomeFormField<any>;
+  @Input() formField: AwesomeControl<any>;
   @Input() modelValue: any;
 
   private _valueToPick: any;

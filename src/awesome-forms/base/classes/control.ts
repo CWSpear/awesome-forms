@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AwesomeControlValueAccessor } from './control-value-accessor';
 
-export abstract class AwesomeFormField<T = any, I = T> extends AwesomeControlValueAccessor<T, I>
+export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValueAccessor<T, I>
   implements AfterViewInit, ControlValueAccessor, AbstractControlDirective {
   @Input()
   set disabled(isDisabled: boolean) {
@@ -49,9 +49,13 @@ export abstract class AwesomeFormField<T = any, I = T> extends AwesomeControlVal
   @HostBinding('class.awesome-error-state')
   get errorState(): boolean {
     // show if they've visited the field, typed something and left or if the form has been submitted
-    const showError = (this.touched && this.dirty) || (this.form && this.form.submitted);
+    const showError = (this.touched && this.dirty) || (this.submitted);
 
     return showError && this.invalid;
+  }
+
+  get submitted() {
+    return this.form && this.form.submitted;
   }
 
   // pass through AbstractControlDirective properties

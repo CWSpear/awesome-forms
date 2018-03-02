@@ -9,14 +9,14 @@ import { AwesomeFormWidgetComponent } from './base/form-widget/form-widget.compo
 import { AwesomeErrorComponent } from './base/error/error.component';
 import { AwesomeHintComponent } from './base/hint/hint.component';
 import { AwesomeLabelComponent } from './base/label/label.component';
-import { AwesomeFormFieldDirective } from './base/form-field/form-field.directive';
+import { AwesomeControlDirective } from './base/form-field-directive/form-field.directive';
 import { SelectComponent } from './form-fields/select/select.component';
 import { OptionComponent } from './form-fields/select/option/option.component';
 import { RadioComponent } from './form-fields/radio/radio.component';
 import { RadioOptionComponent } from './form-fields/radio/radio-option/radio-option.component';
 
 const components = [
-  AwesomeFormFieldDirective,
+  AwesomeControlDirective,
 
   TextComponent,
   SelectComponent,

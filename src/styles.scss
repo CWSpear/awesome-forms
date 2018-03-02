@@ -14,7 +14,7 @@ input[type="text"] {
   }
 }
 
-.awesome-error-state [awesomeFormField] {
+.awesome-error-state [awesomeControl] {
   &, &:focus {
     border-color: red;
   }

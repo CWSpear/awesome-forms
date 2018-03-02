@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AwesomeFormField } from '../../base/classes/form-field';
+import { AwesomeControl } from '../../base/classes/control';
 
 @Component({
   selector: 'awesome-text',
-  exportAs: 'awesomeFormField',
+  exportAs: 'awesomeControl',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
-  providers: [{ provide: AwesomeFormField, useExisting: TextComponent }],
+  providers: [{ provide: AwesomeControl, useExisting: TextComponent }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextComponent extends AwesomeFormField<string> {}
+export class TextComponent extends AwesomeControl<string> {}

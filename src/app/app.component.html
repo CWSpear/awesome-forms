@@ -16,8 +16,8 @@
       >
         <input
           type="text"
-          #input1="awesomeFormField"
-          awesomeFormField
+          #input1="awesomeControl"
+          awesomeControl
           name="text"
           [minlength]="5"
           [maxlength]="10"
@@ -25,6 +25,7 @@
           [required]="required"
           [disabled]="disabled"
         />
+        <awesome-error *ngIf="input1.hasError('maxlength')">Max Length Error</awesome-error>
       </awesome-form-widget>
     </div>
     <div class="col">
@@ -45,8 +46,8 @@
         <label>
           <input
             type="checkbox"
-            #input2="awesomeFormField"
-            awesomeFormField
+            #input2="awesomeControl"
+            awesomeControl
             name="checkbox"
             [(ngModel)]="model.checkbox"
             [required]="required"
@@ -78,7 +79,7 @@
           [required]="required"
           [disabled]="disabled"
           [(ngModel)]="model.select"
-          #input3="awesomeFormField"
+          #input3="awesomeControl"
         >
           <awesome-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-option>
         </awesome-select>
@@ -104,7 +105,7 @@
           [required]="required"
           [disabled]="disabled"
           [(ngModel)]="model.radio"
-          #input4="awesomeFormField"
+          #input4="awesomeControl"
         >
           <awesome-radio-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-radio-option>
         </awesome-radio>
@@ -132,7 +133,7 @@
           [required]="required"
           [disabled]="disabled"
           [(ngModel)]="model.customText"
-          #input5="awesomeFormField"
+          #input5="awesomeControl"
         >
         </awesome-text>
       </awesome-form-widget>

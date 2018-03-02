@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList } from '@angular/core';
-import { AwesomeFormField } from '../../base/classes/form-field';
 import { RadioOptionComponent } from './radio-option/radio-option.component';
+import { AwesomeControl } from '../../base/classes/control';
 
 @Component({
   selector: 'awesome-radio',
-  exportAs: 'awesomeFormField',
+  exportAs: 'awesomeControl',
   template: '<ng-content></ng-content>',
   styleUrls: ['./radio.component.scss'],
-  providers: [{ provide: AwesomeFormField, useExisting: RadioComponent }],
+  providers: [{ provide: AwesomeControl, useExisting: RadioComponent }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RadioComponent extends AwesomeFormField {
+export class RadioComponent extends AwesomeControl {
   @Input() name: string;
 
   @ContentChildren(RadioOptionComponent) inputs: QueryList<RadioOptionComponent> = <any>[];

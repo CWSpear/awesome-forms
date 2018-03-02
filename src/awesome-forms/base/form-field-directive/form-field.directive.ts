@@ -1,14 +1,14 @@
 import { Directive, HostListener, Input, OnInit } from '@angular/core';
-import { AwesomeFormField } from '../classes/form-field';
+import { AwesomeControl } from '../classes/control';
 
 // @TODO check if value changed before `writeValue` or `propagateChange`?
 
 @Directive({
-  selector: '[awesomeFormField]',
-  exportAs: 'awesomeFormField',
-  providers: [{ provide: AwesomeFormField, useExisting: AwesomeFormFieldDirective }],
+  selector: '[awesomeControl]',
+  exportAs: 'awesomeControl',
+  providers: [{ provide: AwesomeControl, useExisting: AwesomeControlDirective }],
 })
-export class AwesomeFormFieldDirective<T> extends AwesomeFormField<T> implements OnInit {
+export class AwesomeControlDirective<T = any> extends AwesomeControl<T> implements OnInit {
   @Input() type: string;
 
   get input() {

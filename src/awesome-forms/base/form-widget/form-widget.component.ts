@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ContentChild, ContentChildren, HostBinding, Input, QueryList } from '@angular/core';
-import { AwesomeFormField } from '../classes/form-field';
+import { AwesomeControl } from '../classes/control';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AwesomeErrorComponent } from '../error/error.component';
 
@@ -10,7 +10,6 @@ export interface ErrorMessage {
 
 const defaultErrorMessages: ErrorMessageMap = {
   minlength: 'This field is too short.',
-  maxlength: 'This field is too long.',
   required: 'This field is required.',
 };
 
@@ -49,15 +48,15 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
   }
 
   @HostBinding('class.awesome-required') get awesomeRequired(): boolean {
-    return this.formField && this.formField.required;
+    return this.control && this.control.required;
   }
 
-  @ContentChild(AwesomeFormField) formField: AwesomeFormField<T>;
+  @ContentChild(AwesomeControl) control: AwesomeControl<T>;
   @ContentChildren(AwesomeErrorComponent) errorChildren: QueryList<AwesomeErrorComponent>;
 
   @HostBinding('class.awesome-error-state')
   get showError() {
-    return this.formField && this.formField.errorState;
+    return this.control && this.control.errorState;
   }
 
   ngAfterViewInit() {
@@ -65,8 +64,8 @@ export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
     // TODO: without setTimeout, we get ExpressionChangedAfterItHasBeenCheckedError error, with timeout, we get inefficient double check
     setTimeout(() => this.animationState = 'enter');
 
-    if (!this.formField) {
-      console.error(`${this.constructor.name} must contain an ${AwesomeFormField.name}`);
+    if (!this.control) {
+      throw new Error(`${this.constructor.name} must contain an ${AwesomeControl.name}`);
     }
   }
 
