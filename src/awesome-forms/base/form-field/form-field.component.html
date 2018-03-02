@@ -8,10 +8,14 @@
 
 <div class="awesome-subscript">
   <div *ngIf="showError" [@transitionMessages]="animationState">
-    <ng-container *ngFor="let error of errorMessagesArray" ngProjectAs="awesome-key">
-      <awesome-error class="error" *ngIf="control.hasError(error.key)">
-        {{ error.message }}
-      </awesome-error>
+    <ng-container *ngFor="let error of errorMessagesArray" ngProjectAs="awesome-error">
+      <awesome-error
+        class="error"
+        [key]="error.key"
+        [control]="control"
+        [message]="error.message"
+        *ngIf="control.hasError(error.key)"
+      ></awesome-error>
     </ng-container>
 
     <ng-container ngProjectAs="awesome-error">

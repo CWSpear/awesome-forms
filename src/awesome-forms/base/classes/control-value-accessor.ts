@@ -3,6 +3,18 @@ import { AbstractControl, ControlValueAccessor, FormControl, FormGroupDirective,
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { takeUntil } from 'rxjs/operators';
 
+import { AwesomeFormFieldComponent } from '../form-field/form-field.component';
+
+/**
+ * Intended use when extending `TcControlValueAccessor`:
+ *
+ * ```html
+ * <internal-control
+ *   #input
+ *   [formControl]="internalControl"
+ * ></internal-control>
+ * ```
+ */
 export abstract class AwesomeControlValueAccessor<T = any, I = T> implements ControlValueAccessor, OnInit, OnDestroy {
   internalControl: AbstractControl = new FormControl();
 
@@ -27,7 +39,8 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
     @Self() protected elementRef: ElementRef,
     @Optional() protected formGroupDirective: FormGroupDirective,
     @Optional() protected ngForm: NgForm,
-    @Optional() @Self() public ngControl: NgControl,
+    @Optional() @Self() protected ngControl: NgControl,
+    @Optional() public formField: AwesomeFormFieldComponent,
   ) {
     this.ngControl.valueAccessor = <ControlValueAccessor>this;
   }

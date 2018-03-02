@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AwesomeControl } from '../../base/classes/control';
 
 @Component({
@@ -9,4 +9,15 @@ import { AwesomeControl } from '../../base/classes/control';
   providers: [{ provide: AwesomeControl, useExisting: TextComponent }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextComponent extends AwesomeControl<string> {}
+export class TextComponent extends AwesomeControl<string> implements OnInit {
+  ngOnInit() {
+    super.ngOnInit();
+
+    console.log(this.formField);
+    if (this.formField) {
+      this.formField.updateErrorMessages({
+        minlength: 'You are {actualLength}/{requiredLength} the way there!',
+      });
+    }
+  }
+}
