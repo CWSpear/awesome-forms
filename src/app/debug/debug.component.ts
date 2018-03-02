@@ -8,7 +8,7 @@ import { AwesomeControl } from '../../awesome-forms/base/classes/control';
 })
 export class DebugComponent {
   @Input() name: string;
-  @Input() formField: AwesomeControl<any>;
+  @Input() control: AwesomeControl<any>;
   @Input() modelValue: any;
 
   private _valueToPick: any;
@@ -24,6 +24,6 @@ export class DebugComponent {
   }
 
   pickValue() {
-    this.formField.control.setValue(this.valueToPick);
+    this.control.setValue(this.valueToPick);
   }
 }

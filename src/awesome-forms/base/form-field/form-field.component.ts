@@ -18,9 +18,9 @@ export interface ErrorMessageMap {
 }
 
 @Component({
-  selector: 'awesome-form-widget',
-  templateUrl: './form-widget.component.html',
-  styleUrls: ['./form-widget.component.scss'],
+  selector: 'awesome-form-field',
+  templateUrl: './form-field.component.html',
+  styleUrls: ['./form-field.component.scss'],
   animations: [
     trigger('transitionMessages', [
       state('enter', style({ opacity: 1, transform: 'translateY(0%)' })),
@@ -31,7 +31,7 @@ export interface ErrorMessageMap {
     ]),
   ],
 })
-export class AwesomeFormWidgetComponent<T> implements AfterViewInit {
+export class AwesomeFormFieldComponent<T = any> implements AfterViewInit {
   @Input() label: string;
   @Input() hint: string;
 

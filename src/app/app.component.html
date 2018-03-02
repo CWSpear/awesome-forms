@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col">
-      <awesome-form-widget
+      <awesome-form-field
         label="Text"
         hint="Length between 5 and 10"
       >
@@ -26,13 +26,13 @@
           [disabled]="disabled"
         />
         <awesome-error *ngIf="input1.hasError('maxlength')">Max Length Error</awesome-error>
-      </awesome-form-widget>
+      </awesome-form-field>
     </div>
     <div class="col">
       <awesome-debug
         name="Text"
         [valueToPick]="'This is a set value'"
-        [formField]="input1"
+        [control]="input1"
         [modelValue]="model.text"
       ></awesome-debug>
     </div>
@@ -40,7 +40,7 @@
 
   <div class="row">
     <div class="col">
-      <awesome-form-widget
+      <awesome-form-field
         label="Checkbox"
       >
         <label>
@@ -55,13 +55,13 @@
           />
           Check Me
         </label>
-      </awesome-form-widget>
+      </awesome-form-field>
     </div>
     <div class="col">
       <awesome-debug
         name="Select"
         [valueToPick]="false"
-        [formField]="input2"
+        [control]="input2"
         [modelValue]="model.checkbox"
       ></awesome-debug>
     </div>
@@ -69,7 +69,7 @@
 
   <div class="row">
     <div class="col">
-      <awesome-form-widget
+      <awesome-form-field
         label="Select"
         hint="Select favorite color"
         [errorMessages]="{ required: 'Override require message!' }"
@@ -83,13 +83,13 @@
         >
           <awesome-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-option>
         </awesome-select>
-      </awesome-form-widget>
+      </awesome-form-field>
     </div>
     <div class="col">
       <awesome-debug
         name="Select"
         [valueToPick]="options[1]"
-        [formField]="input3"
+        [control]="input3"
         [modelValue]="model.select"
       ></awesome-debug>
     </div>
@@ -97,7 +97,7 @@
 
   <div class="row">
     <div class="col">
-      <awesome-form-widget
+      <awesome-form-field
         label="Radio"
       >
         <awesome-radio
@@ -109,13 +109,13 @@
         >
           <awesome-radio-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-radio-option>
         </awesome-radio>
-      </awesome-form-widget>
+      </awesome-form-field>
     </div>
     <div class="col">
       <awesome-debug
         name="Radio"
         [valueToPick]="options[2]"
-        [formField]="input4"
+        [control]="input4"
         [modelValue]="model.radio"
       ></awesome-debug>
     </div>
@@ -123,7 +123,7 @@
 
   <div class="row">
     <div class="col">
-      <awesome-form-widget
+      <awesome-form-field
         label="Custom Text"
       >
         <awesome-text
@@ -136,13 +136,13 @@
           #input5="awesomeControl"
         >
         </awesome-text>
-      </awesome-form-widget>
+      </awesome-form-field>
     </div>
     <div class="col">
       <awesome-debug
         name="Custom Text"
         [valueToPick]="'Text is easy'"
-        [formField]="input5"
+        [control]="input5"
         [modelValue]="model.customText"
       ></awesome-debug>
     </div>

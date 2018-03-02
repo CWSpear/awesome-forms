@@ -9,9 +9,9 @@ The purpose of this mini-framework is to make it very easy to create reproducibl
 The basic idea in simplified HTML is to turn this:
 
 ```html
-<awesome-form-widget label="Label" hint="Hint" errorMessages="{}">
+<awesome-form-field label="Label" hint="Hint" errorMessages="{}">
   <input awesomeControl />
-</awesome-form-widget>
+</awesome-form-field>
 ```
 
 into this:

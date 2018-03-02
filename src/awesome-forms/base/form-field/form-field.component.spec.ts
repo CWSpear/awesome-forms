@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AwesomeFormWidgetComponent } from './form-widget.component';
+import { AwesomeFormFieldComponent } from './form-field.component';
 
 describe('AwesomeFormWidgetComponent', () => {
-  let component: AwesomeFormWidgetComponent;
-  let fixture: ComponentFixture<AwesomeFormWidgetComponent>;
+  let component: AwesomeFormFieldComponent;
+  let fixture: ComponentFixture<AwesomeFormFieldComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AwesomeFormWidgetComponent],
+      declarations: [AwesomeFormFieldComponent],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AwesomeFormWidgetComponent);
+    fixture = TestBed.createComponent(AwesomeFormFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
