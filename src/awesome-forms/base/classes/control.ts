@@ -1,4 +1,4 @@
-import { AfterViewInit, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, ElementRef, EventEmitter, HostBinding, Input, Output, QueryList, ViewChild } from '@angular/core';
 import { AbstractControlDirective, ControlValueAccessor, ValidationErrors, } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -13,6 +13,11 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
 
   @Input() required: boolean;
 
+  // are other events worth forwarding?
+  @Output() blur = new EventEmitter<FocusEvent>();
+  @Output() focus = new EventEmitter<FocusEvent>();
+
+  // attach `#input` to internal component
   @ViewChild('input') input: ElementRef;
 
   protected _focused = false;
@@ -25,6 +30,18 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
   }
 
   get previousValue(): T { return this._previousValue; }
+
+  @HostBinding('class.tc-error-state')
+  get errorState(): boolean {
+    // show if they've visited the field, typed something and left or if the form has been submitted
+    const showError = (this.touched && this.dirty) || this.submitted;
+
+    return showError && this.invalid;
+  }
+
+  get submitted() {
+    return this.form && this.form.submitted;
+  }
 
   ngAfterViewInit() {
     this.setupFocus();
@@ -40,22 +57,23 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
 
   setupFocus() {
     // doing it this way allows us to easily extend this component
-    const elem: HTMLInputElement = this.input.nativeElement;
-
-    this.renderer.listen(elem, 'focus', () => ((this._focused = true)));
-    this.renderer.listen(elem, 'blur', () => (this.propagateTouched(), (this._focused = false)));
+    this.focusHelper(this.input);
   }
 
-  @HostBinding('class.awesome-error-state')
-  get errorState(): boolean {
-    // show if they've visited the field, typed something and left or if the form has been submitted
-    const showError = (this.touched && this.dirty) || (this.submitted);
-
-    return showError && this.invalid;
+  onFocus(event?: FocusEvent) {
+    this._focused = true;
+    this.focus.emit(event);
   }
 
-  get submitted() {
-    return this.form && this.form.submitted;
+  // MDN says blur events receive a FocusEvent
+  onBlur(event?: FocusEvent) {
+    this.propagateTouched();
+    this._focused = false;
+    this.blur.emit(event);
+  }
+
+  clearValue() {
+    this.setValue(null);
   }
 
   // pass through AbstractControlDirective properties
@@ -90,11 +108,28 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
 
   get path(): string[] | null { return null; }
 
-  reset(value?: T): void { this.control.reset(value); }
+  reset(value?: T): void {
+    this.control.reset(value);
+  }
 
-  hasError(errorCode: string, path?: string[]): boolean { return this.control.hasError(errorCode, path); }
+  hasError(errorCode: string, path?: string[]): boolean {
+    return this.control.hasError(errorCode, path);
+  }
 
-  getError(errorCode: string, path?: string[]): any { return this.control.getError(errorCode, path); }
+  getError(errorCode: string, path?: string[]): any {
+    return this.control.getError(errorCode, path);
+  }
 
   // end: pass through AbstractControlDirective properties
+
+  protected focusHelper<E extends { nativeElement } = ElementRef>(elemRefs: E | E[] | QueryList<E>) {
+    if (!Array.isArray(elemRefs) && !(elemRefs instanceof QueryList)) {
+      elemRefs = [<E>elemRefs];
+    }
+
+    (<E[]>elemRefs).forEach((elemRef: ElementRef) => {
+      this.renderer.listen(elemRef.nativeElement, 'focus', event => this.onFocus(event));
+      this.renderer.listen(elemRef.nativeElement, 'blur', event => this.onBlur(event));
+    });
+  }
 }

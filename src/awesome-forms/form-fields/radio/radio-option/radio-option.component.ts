@@ -12,10 +12,12 @@ function id() {
   templateUrl: './radio-option.component.html',
 })
 export class RadioOptionComponent implements OnInit {
+  static uniqueIdCounter = 0;
+  uniqueId = `awesome-radio-option-${RadioOptionComponent.uniqueIdCounter++}`;
+
   @Input() value: string;
 
   name: string;
-  id: string;
 
   @ViewChild('input') input: ElementRef;
 
@@ -25,19 +27,13 @@ export class RadioOptionComponent implements OnInit {
 
   constructor(
     @Inject(forwardRef(() => RadioComponent)) public radio: RadioComponent,
-  ) {
-    this.id = id();
-  }
+  ) {}
 
   ngOnInit() {
     if (!this.radio) {
       throw new Error(`${this.constructor.name} may only be used inside of a ${RadioComponent.name} component.`);
     }
 
-    if (!this.radio.name) {
-      throw new Error(`${RadioComponent.name} must have a [name] property.`);
-    }
-
-    this.name = this.radio.name;
+    this.name = this.radio.name || this.radio.uniqueId;
   }
 }

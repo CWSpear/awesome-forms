@@ -1,5 +1,5 @@
 import { ElementRef, OnDestroy, OnInit, Optional, Renderer2, Self } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { takeUntil } from 'rxjs/operators';
 
@@ -41,6 +41,7 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
     @Optional() protected ngForm: NgForm,
     @Optional() @Self() protected ngControl: NgControl,
     @Optional() public formField: AwesomeFormFieldComponent,
+    protected formBuilder: FormBuilder,
   ) {
     this.ngControl.valueAccessor = <ControlValueAccessor>this;
   }
@@ -96,10 +97,10 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
 
   protected valueCompare(oldVal: T, newVal: T): boolean {
     // cast undefined and '' to null
-    return this.coerceToNull(oldVal) === this.coerceToNull(newVal);
+    return this.coerceEmptyToNull(oldVal) === this.coerceEmptyToNull(newVal);
   }
 
-  protected coerceToNull(val: any): any | null {
+  protected coerceEmptyToNull(val: any): any | null {
     if (val === undefined || val === '') {
       return null;
     }

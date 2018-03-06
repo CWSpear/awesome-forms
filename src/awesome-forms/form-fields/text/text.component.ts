@@ -3,7 +3,7 @@ import { AwesomeControl } from '../../base/classes/control';
 
 @Component({
   selector: 'awesome-text',
-  exportAs: 'awesomeControl',
+  exportAs: 'awesomeText',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
   providers: [{ provide: AwesomeControl, useExisting: TextComponent }],

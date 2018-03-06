@@ -4,7 +4,7 @@ import { AwesomeControl } from '../../base/classes/control';
 
 @Component({
   selector: 'awesome-select',
-  exportAs: 'awesomeControl',
+  exportAs: 'awesomeSelect',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   providers: [{ provide: AwesomeControl, useExisting: SelectComponent }],
