@@ -54,6 +54,9 @@
     }
   },
   "defaults": {
+    "build": {
+      "showCircularDependencies": false
+    },
     "lintFix": true,
     "styleExt": "scss",
     "component": {}

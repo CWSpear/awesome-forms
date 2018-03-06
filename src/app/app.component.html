@@ -80,7 +80,7 @@
           [required]="required"
           [disabled]="disabled"
           [(ngModel)]="model.select"
-          #input3="awesomeControl"
+          #input3="awesomeSelect"
         >
           <awesome-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-option>
         </awesome-select>
@@ -106,7 +106,7 @@
           [required]="required"
           [disabled]="disabled"
           [(ngModel)]="model.radio"
-          #input4="awesomeControl"
+          #input4="awesomeRadio"
         >
           <awesome-radio-option *ngFor="let opt of options" [value]="opt">{{ opt.label }}</awesome-radio-option>
         </awesome-radio>
@@ -134,7 +134,7 @@
           [required]="required"
           [disabled]="disabled"
           [(ngModel)]="model.customText"
-          #input5="awesomeControl"
+          #input5="awesomeText"
         >
         </awesome-text>
       </awesome-form-field>
