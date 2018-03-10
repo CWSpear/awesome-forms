@@ -15,16 +15,17 @@ import { AwesomeFormFieldComponent } from '../form-field/form-field.component';
  * ></internal-control>
  * ```
  */
-export abstract class AwesomeControlValueAccessor<T = any, I = T> implements ControlValueAccessor, OnInit, OnDestroy {
+export abstract class AwesomeControlValueAccessor<ControlModel = any, InternalControlModel = ControlModel>
+  implements ControlValueAccessor, OnInit, OnDestroy {
   internalControl: AbstractControl = new FormControl();
 
-  propagateChange: (newVal: T) => void;
+  propagateChange: (newVal: ControlModel) => void;
   propagateTouched: () => void;
 
   destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  protected _previousValue: T;
-  internalValue: I;
+  protected _previousValue: ControlModel;
+  internalValue: InternalControlModel;
 
   get control(): AbstractControl {
     return this.ngControl.control || <AbstractControl>{};
@@ -58,7 +59,7 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
   setUpSubscription() {
     this.internalControl.valueChanges
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((internalValue: I) => {
+      .subscribe((internalValue: InternalControlModel) => {
         this.internalValue = internalValue;
         const newValue = this.convertFromInternalValue(internalValue);
         if (!this.valueCompare(this.control.value, newValue)) {
@@ -67,17 +68,34 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
       });
   }
 
-  writeValue(value: T) {
+  writeValue(value: ControlModel) {
     this.setValue(value);
   }
 
-  setValue(value: T) {
-    this._previousValue = this.internalControl.value;
-    this.internalControl.setValue(this.convertToInternalValue(value));
+  setValue(value: ControlModel, silent = false) {
+    if (silent) {
+      // Sometimes, certain events will change properties on the control externally, and updating the control normally
+      // will cause infinite loops or other issues. The silent flag allows us to update things without those risks.
+      // USE WITH CARE!
+
+      // these wouldn't otherwise get updated in a silent update
+      this._previousValue = this.control.value;
+      this.internalValue = this.convertToInternalValue(value);
+
+      this.internalControl.setValue(this.internalValue, { emitEvent: false });
+
+      this.control.setValue(value, {
+        emitEvent: false,
+        emitModelToViewChange: false,
+        emitViewToModelChange: false,
+      });
+    } else {
+      this.internalControl.setValue(this.convertToInternalValue(value));
+    }
   }
 
-  registerOnChange(fn: (newVal: T) => void) {
-    this.propagateChange = (newVal: T) => {
+  registerOnChange(fn: (newVal: ControlModel) => void) {
+    this.propagateChange = (newVal: ControlModel) => {
       this._previousValue = this.control.value;
       fn(newVal);
     };
@@ -87,15 +105,15 @@ export abstract class AwesomeControlValueAccessor<T = any, I = T> implements Con
     this.propagateTouched = fn;
   }
 
-  protected convertFromInternalValue(internalValue: any): T {
+  protected convertFromInternalValue(internalValue: any): ControlModel {
     return internalValue;
   }
 
-  protected convertToInternalValue(value: T): any {
+  protected convertToInternalValue(value: ControlModel): any {
     return value;
   }
 
-  protected valueCompare(oldVal: T, newVal: T): boolean {
+  protected valueCompare(oldVal: ControlModel, newVal: ControlModel): boolean {
     // cast undefined and '' to null
     return this.coerceEmptyToNull(oldVal) === this.coerceEmptyToNull(newVal);
   }

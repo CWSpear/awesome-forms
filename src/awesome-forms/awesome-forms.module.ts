@@ -6,8 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TextComponent } from './form-fields/text/text.component';
 import { AwesomeFormFieldComponent } from './base/form-field/form-field.component';
-import { AwesomeErrorComponent } from './base/error/error.component';
 import { AwesomeHintComponent } from './base/hint/hint.component';
+import { AwesomeErrorComponent } from './base/error/error.component';
+import { AwesomeHintAndErrorsComponent } from './base/form-field/hint-and-errors/hint-and-errors.component';
 import { AwesomeLabelComponent } from './base/label/label.component';
 import { AwesomeControlDirective } from './base/control-directive/control.directive';
 import { SelectComponent } from './form-fields/select/select.component';
@@ -25,6 +26,7 @@ const components = [
   RadioOptionComponent,
 
   AwesomeFormFieldComponent,
+  AwesomeHintAndErrorsComponent,
   AwesomeErrorComponent,
   AwesomeHintComponent,
   AwesomeLabelComponent,

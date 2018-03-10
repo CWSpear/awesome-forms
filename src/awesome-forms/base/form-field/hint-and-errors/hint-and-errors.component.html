@@ -1,0 +1,28 @@
+<div
+  *ngIf="formField.showError"
+  [@transitionMessages]="animationState"
+>
+  <ng-container
+    *ngFor="let error of formField.errorMessagesArray"
+    ngProjectAs="awesome-error"
+  >
+    <awesome-error
+      class="error"
+      [key]="error.key"
+      [control]="formField.control"
+      [message]="error.message"
+      *ngIf="formField.control.hasError(error.key)"
+    ></awesome-error>
+  </ng-container>
+
+  <ng-container ngProjectAs="awesome-error">
+    <ng-content select="awesome-error"></ng-content>
+  </ng-container>
+</div>
+
+<div
+  *ngIf="formField.hint && !formField.showError"
+  [@transitionMessages]="animationState"
+>
+  <awesome-hint>{{ formField.hint }}</awesome-hint>
+</div>

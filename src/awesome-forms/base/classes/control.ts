@@ -4,8 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { AwesomeControlValueAccessor } from './control-value-accessor';
 
-export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValueAccessor<T, I>
+export abstract class AwesomeControl<ControlModel = any, InternalControlModel = ControlModel>
+  extends AwesomeControlValueAccessor<ControlModel, InternalControlModel>
   implements AfterViewInit, ControlValueAccessor, AbstractControlDirective {
+
   @Input()
   set disabled(isDisabled: boolean) {
     this.setDisabledState(isDisabled);
@@ -29,9 +31,9 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
     return this.value === null || this.value === undefined || <any>this.value === '';
   }
 
-  get previousValue(): T { return this._previousValue; }
+  get previousValue(): ControlModel { return this._previousValue; }
 
-  @HostBinding('class.tc-error-state')
+  @HostBinding('class.awesome-is-in-error-state')
   get errorState(): boolean {
     // show if they've visited the field, typed something and left or if the form has been submitted
     const showError = (this.touched && this.dirty) || this.submitted;
@@ -78,7 +80,7 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
 
   // pass through AbstractControlDirective properties
 
-  get value(): T { return this.control.value; }
+  get value(): ControlModel { return this.control.value; }
 
   get valid(): boolean | null { return this.control.valid; }
 
@@ -104,11 +106,11 @@ export abstract class AwesomeControl<T = any, I = T> extends AwesomeControlValue
 
   get statusChanges(): Observable<any> | null { return this.control.statusChanges; }
 
-  get valueChanges(): Observable<T> | null { return this.control.valueChanges; }
+  get valueChanges(): Observable<ControlModel> | null { return this.control.valueChanges; }
 
   get path(): string[] | null { return null; }
 
-  reset(value?: T): void {
+  reset(value?: ControlModel): void {
     this.control.reset(value);
   }
 

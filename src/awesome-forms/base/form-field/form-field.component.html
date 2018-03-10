@@ -1,29 +1,11 @@
 <awesome-label>{{ label }}</awesome-label>
 
-<div class="awesome-input">
+<div class="awesome-input-wrapper">
   <ng-content select="awesomePrefix"></ng-content>
   <ng-content></ng-content>
   <ng-content select="awesomeSuffix"></ng-content>
 </div>
 
 <div class="awesome-subscript">
-  <div *ngIf="showError" [@transitionMessages]="animationState">
-    <ng-container *ngFor="let error of errorMessagesArray" ngProjectAs="awesome-error">
-      <awesome-error
-        class="error"
-        [key]="error.key"
-        [control]="control"
-        [message]="error.message"
-        *ngIf="control.hasError(error.key)"
-      ></awesome-error>
-    </ng-container>
-
-    <ng-container ngProjectAs="awesome-error">
-      <ng-content select="awesome-error"></ng-content>
-    </ng-container>
-  </div>
-
-  <div *ngIf="!showError" [@transitionMessages]="animationState">
-    <awesome-hint *ngIf="hint">{{ hint }}</awesome-hint>
-  </div>
+  <awesome-hint-and-errors></awesome-hint-and-errors>
 </div>

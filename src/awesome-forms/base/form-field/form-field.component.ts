@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ContentChild, ContentChildren, forwardRef, HostBinding, Input, QueryList } from '@angular/core';
 import { AwesomeControl } from '../classes/control';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AwesomeErrorComponent } from '../error/error.component';
 import { AwesomePrefixDirective } from '../affixes/prefix.directive';
 import { AwesomeSuffixDirective } from '../affixes/suffix.directive';
@@ -24,32 +23,22 @@ export interface ErrorMessageMap {
   selector: 'awesome-form-field',
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
-  animations: [
-    trigger('transitionMessages', [
-      state('enter', style({ opacity: 1, transform: 'translateY(0%)' })),
-      transition('void => *', [
-        style({ opacity: 0, transform: 'translateY(-100%)' }),
-        animate('300ms cubic-bezier(0.55, 0, 0.55, 0.2)'),
-      ]),
-    ]),
-  ],
 })
 export class AwesomeFormFieldComponent<T = any> implements AfterViewInit {
   @Input() label: string;
   @Input() hint: string;
+  /* @Input() */ forceHideErrors = false;
 
   private errorMessageMap = defaultErrorMessages;
 
   errorMessagesArray: ErrorMessage[] = this.errorMessageMapToArray(this.errorMessageMap);
-  animationState: string;
 
   @Input() set errorMessages(errorMessageMap: ErrorMessageMap) {
     this.updateErrorMessages(errorMessageMap);
   }
 
-  @HostBinding('class') classes = 'tc-input-container tc-form-field';
-
-  @HostBinding('class.tc-is-required') get isRequired(): boolean {
+  @HostBinding('class.awesome-is-required')
+  get isRequired(): boolean {
     return this.control && this.control.required;
   }
 
@@ -58,16 +47,12 @@ export class AwesomeFormFieldComponent<T = any> implements AfterViewInit {
   @ContentChildren(AwesomePrefixDirective) prefixChildren: QueryList<AwesomePrefixDirective>;
   @ContentChildren(AwesomeSuffixDirective) suffixChildren: QueryList<AwesomeSuffixDirective>;
 
-  @HostBinding('class.tc-is-in-error-state')
+  @HostBinding('class.awesome-is-in-error-state')
   get showError() {
-    return this.control && this.control.errorState;
+    return !this.forceHideErrors && this.control && this.control.errorState;
   }
 
   ngAfterViewInit() {
-    // avoid animations on load
-    // TODO: without setTimeout, we get ExpressionChangedAfterItHasBeenCheckedError error, with timeout, we get inefficient double check
-    setTimeout(() => this.animationState = 'enter');
-
     if (!this.control) {
       throw new Error(`${this.constructor.name} must contain an ${AwesomeControl.name}`);
     }
@@ -88,8 +73,6 @@ export class AwesomeFormFieldComponent<T = any> implements AfterViewInit {
     }
 
     this.errorMessagesArray = this.errorMessageMapToArray(this.errorMessageMap);
-
-    console.log(this.errorMessageMap);
   }
 
   // allows child elements to override the hint (or set a default if one does not exist)
@@ -99,7 +82,7 @@ export class AwesomeFormFieldComponent<T = any> implements AfterViewInit {
     }
   }
 
-  private errorMessageMapToArray(errorMessages: ErrorMessageMap) {
+  private errorMessageMapToArray(errorMessages: ErrorMessageMap): ErrorMessage[] {
     return Object.keys(errorMessages).map((key: string) => ({ key, message: errorMessages[key] }));
   }
 }

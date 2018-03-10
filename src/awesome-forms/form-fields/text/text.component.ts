@@ -13,7 +13,6 @@ export class TextComponent extends AwesomeControl<string> implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
-    console.log(this.formField);
     if (this.formField) {
       this.formField.updateErrorMessages({
         minlength: 'You are {actualLength}/{requiredLength} the way there!',
