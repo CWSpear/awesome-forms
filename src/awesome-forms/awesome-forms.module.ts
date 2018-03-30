@@ -15,6 +15,11 @@ import { SelectComponent } from './form-fields/select/select.component';
 import { OptionComponent } from './form-fields/select/option/option.component';
 import { RadioComponent } from './form-fields/radio/radio.component';
 import { RadioOptionComponent } from './form-fields/radio/radio-option/radio-option.component';
+import { PopupTestComponent } from './popup/popup-test.component';
+import { PopupComponent } from './popup/popup.component';
+import { PopupService } from './popup/popup.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 const components = [
   AwesomeControlDirective,
@@ -30,10 +35,15 @@ const components = [
   AwesomeErrorComponent,
   AwesomeHintComponent,
   AwesomeLabelComponent,
+
+  PopupTestComponent,
+  PopupComponent,
 ];
 
 @NgModule({
   imports: [
+    PortalModule,
+    OverlayModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -46,6 +56,11 @@ const components = [
   exports: [
     ...components,
   ],
-  providers: [],
+  providers: [
+    PopupService,
+  ],
+  entryComponents: [
+    PopupTestComponent,
+  ],
 })
 export class AwesomeFormsModule {}

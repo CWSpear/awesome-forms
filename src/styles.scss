@@ -1,3 +1,12 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  &.dark-backdrop {
+    background: #000;
+    opacity: 0.85 !important;
+  }
+}
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 body {
